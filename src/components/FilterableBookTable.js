@@ -2,20 +2,18 @@ import React, { Component } from 'react';
 import BookTable from './BookTable';
 import { connect } from 'react-redux';
 import { updateBookTitle, deleteBook } from '../actions/books';
+import { toggleBookForm } from '../actions/ui';
 
-class FilterableBookTable extends Component {
-  render() {
-    const { dispatch } = this.props;
-    return (
-      <div>
-        <BookTable 
-          books={this.props.books} 
-          onEditBookClick={(id) => () => console.log(`edit ${id}`)} 
-          onDeleteBookClick={(id) => () => dispatch(deleteBook(id))} 
-        />
-      </div>
-    );
-  }
+const FilterableBookTable = ({ dispatch, books, onDeleteClick }) => {
+  return (
+    <div>
+      <BookTable 
+        books={books} 
+        onEditBookClick={(id) => () => console.log(`edit ${id}`)} 
+        onDeleteBookClick={(id) => onDeleteClick(id)} 
+      />
+    </div>
+  );
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -24,6 +22,16 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onDeleteClick: id =>
+      dispatch(deleteBook(id)),
+    onEditClick: id => {
+      dispatch(toggleBookForm(true))
+    }
+  };
+}
 
 
-export default connect(mapStateToProps)(FilterableBookTable);
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterableBookTable);

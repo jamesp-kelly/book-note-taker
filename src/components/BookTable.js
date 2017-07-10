@@ -6,9 +6,12 @@ class BookTable extends Component {
     const { books, onEditBookClick, onDeleteBookClick } = this.props;
     return (
         <div>
-          {
-            books.map((book) => <BookRow book={book} onEdit={onEditBookClick} onDelete={onDeleteBookClick} />)
-          }
+          {books.map((book) => 
+              <BookRow 
+                book={book} 
+                onEdit={() => onEditBookClick(book.id)} 
+                onDelete={() => onDeleteBookClick(book.id)}
+              />)}
         </div>
     );
   }
